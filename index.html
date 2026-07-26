@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +30,7 @@
                 <h1 class="text-2xl font-bold text-white bg-gradient-to-r from-[#c084fc] to-[#f472b6] bg-clip-text text-transparent">
                     K-Pop Wave Entertainment Portal
                 </h1>
-                <pclass="text-xs text-gray-400 mt-1">Matrix 2026 Registry • Official South Korean Entertainment Database</p>
+                <p class="text-xs text-gray-400 mt-1">Matrix 2026 Registry • Official South Korean Entertainment Database</p>
             </div>
             
             <div class="flex items-center gap-3 w-full md:w-auto justify-center">
@@ -81,7 +82,9 @@
                         <p class="text-xs text-gray-400 mt-0.5">Real-time comeback & global concert schedules</p>
                     </div>
                     <span class="bg-pink-900/40 text-pink-300 text-[10px] font-bold px-2 py-0.5 border border-pink-500/30 rounded animate-pulse">Live Feed Active</span>
-                </div>  <input type="text" id="eventSearchBar" onkeyup="filterLiveEvents()" placeholder="Search active artist events..." class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-4 py-2.5 text-white text-sm outline-none focus:border-pink-500 mb-3">
+                </div>
+
+                <input type="text" id="eventSearchBar" onkeyup="filterLiveEvents()" placeholder="Search active artist events..." class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-4 py-2.5 text-white text-sm outline-none focus:border-pink-500 mb-3">
 
                 <div id="liveEventsContainer" class="event-list-box max-h-[260px] overflow-y-auto flex flex-col gap-2.5 pr-1">
                     <!-- Dynamic Events Render Here -->
@@ -203,7 +206,8 @@
             { name: "Source Music", group: "Big 4 Ecosystem", desc: "Specialized girl group music development arm acquired by HYBE. Prominently produces and manages LE SSERAFIM." },
             { name: "ADOR", group: "Big 4 Ecosystem", desc: "Boutique global pop concept agency under HYBE framework. Home to record-breaking continuous hitmakers NewJeans." },
             { name: "KOZ Entertainment", group: "Big 4 Ecosystem", desc: "Trendsetting alternative, hip-hop and pop-focused subsidiary founded by Zico. Home to BOYNEXTDOOR." },
-            { name: "HYBE Labels Japan", group: "Big 4 Ecosystem", desc: "Tokyo-localized performance management infrastructure expanding market visibility. Manages global pop band &TEAM." },{ name: "NAECO", group: "Big 4 Ecosystem", desc: "HYBE localized independent subsidiary agency specializing in tracking premier domestic Japanese solo actor-artist profiles." },
+            { name: "HYBE Labels Japan", group: "Big 4 Ecosystem", desc: "Tokyo-localized performance management infrastructure expanding market visibility. Manages global pop band &TEAM." },
+            { name: "NAECO", group: "Big 4 Ecosystem", desc: "HYBE localized independent subsidiary agency specializing in tracking premier domestic Japanese solo actor-artist profiles." },
             { name: "SM Entertainment", group: "Big 4 Ecosystem", desc: "Legendary powerhouse creator of generational modern idol blueprints. Rules rosters including NCT, Aespa, RIIZE, and Red Velvet." },
             { name: "Mystic Story", group: "Big 4 Ecosystem", desc: "Subsidiary creative division under SM Entertainment focused on alternative pop bands, balladeers, and actors. Manages Billlie." },
             { name: "ScreaM Records", group: "Big 4 Ecosystem", desc: "Electronic dance music label sub-division under SM Entertainment. Produces global remixes and EDM projects." },
@@ -225,58 +229,7 @@
             { name: "EDAM Entertainment", group: "Conglomerate Subsidiary", desc: "Exclusive artist management home representing elite soloist IU and actor/singer Woodz." },
             { name: "Highup Entertainment", group: "Conglomerate Subsidiary", desc: "Hitmaker Black Eyed Pilseung founded boutique label housing girl group STAYC." },
             { name: "Antenna", group: "Conglomerate Subsidiary", desc: "Singer-songwriter powerhouse label founded by Yoo Hee-yeol, housing Yoo Jae-suk and Kyuhyun." },
-            { name: "Blossom Entertainment", group: "Conglomerate Subsidiary", desc: "Prominent actor management agency partnered with major media infrastructure." },
-            { name: "FLEX M", group: "Conglomerate Subsidiary", desc: "OST production and music management label under Kakao Entertainment." },
-            { name: "WakeOne", group: "Conglomerate Subsidiary", desc: "CJ ENM multi-label subsidiary managing project groups like ZEROBASEONE and Kep1er." },
-            { name: "Modhaus", group: "Conglomerate Subsidiary", desc: "Innovative blockchain-backed fan participation agency managing tripleS and ARTMS." },
-            { name: "Lapone Entertainment", group: "Conglomerate Subsidiary", desc: "Joint venture between CJ ENM and Yoshimoto Kogyo managing JO1 and INI." },
-            { name: "AOMG", group: "Conglomerate Subsidiary", desc: "Renowned independent hip-hop and R&B record label operating under CJ ENM partnership." },
-            { name: "H1ghr Music", group: "Conglomerate Subsidiary", desc: "Global hip-hop label affiliate under the CJ ENM ecosystem focusing on street culture, urban rappers, and crossover artists." },
-            { name: "Amoeba Culture", group: "Conglomerate Subsidiary", desc: "Longstanding urban hip-hop agency and distribution network allied with major conglomerate funding matrix channels." },
-            { name: "RBW (Rainbow Bridge World)", group: "Independent Label", desc: "Publicly traded multi-label corporate powerhouse famous for vocal mastery. Roster includes Mamamoo, Oneus, and Purple Kiss." },
-            { name: "WM Entertainment", group: "Independent Label", desc: "Established pop agency acquired by RBW group. Maintains independent management over groups Oh My Girl, ONF, and Lee Chae-yeon." },
-            { name: "DSP Media", group: "Independent Label", desc: "Historic legacy agency fully integrated into the RBW ecosystem to handle active pop groups KARD, MIRAE, and Young Posse." },
-            { name: "Urban Works Media", group: "Independent Label", desc: "RBW acquired production house managing specialized content creations, commercial media, and auxiliary actor profiles." },
-            { name: "Cube Entertainment", group: "Independent Label", desc: "Public independent giant known for self-producing global powerhouse groups. Handles mega acts (G)I-DLE and NOWADAYS." },
-            { name: "FNC Entertainment", group: "Independent Label", desc: "Publicly traded house blending traditional pop acts with idol-rock formations. Manages SF9, P1Harmony, N.Flying, and AmpersandOne." },
-            { name: "KQ Entertainment", group: "Independent Label", desc: "Powerhouse independent agency driving monumental international concert tours. Home to global forces ATEEZ and xikers." },
-            { name: "Fantagio", group: "Independent Label", desc: "Publicly listed entertainment company managing a balanced portfolio of top-tier television actors and pop idol lines ASTRO and LUN8." },
-            { name: "Jellyfish Entertainment", group: "Independent Label", desc: "Established independent management firm operating acting and music lineups. Directs charts for Verivery and global group EVNNE." },
-            { name: "Woollim Entertainment", group: "Independent Label", desc: "Mid-tier legacy company recognized for highly synchronized choreographic blueprint development. Home to Infinite and Golden Child." },
-            { name: "Yuehua Entertainment Korea", group: "Independent Label", desc: "Active local subsidiary office of the massive Chinese parent media group. Directs actions for EVERGLOW, Tempest, and Yena." },
-            { name: "Brand New Music", group: "Independent Label", desc: "Independent label focusing heavily on alternative Korean hip-hop, rap-pop crossovers, and idol groups AB6IX and YOUNITE." },
-            { name: "C9 Entertainment", group: "Independent Label", desc: "Independent music agency known for intense concept-driven boy groups. Coordinates schedules for active groups CIX and EPEX." },{ name: "TOP Media", group: "Independent Label", desc: "Veteran artist-founded independent management house managing high-energy performance concepts. Home to global rookie line MCND." },
-            { name: "Brave Entertainment", group: "Independent Label", desc: "Producer-led music label directed by hitmaker Brave Brothers. Manages alternative pop acts and rookie girl group Candy Shop." },
-            { name: "ATTRAKT", group: "Independent Label", desc: "Boutique agency that made history with historic viral global breakout charting positions. Directs active roster systems for FIFTY FIFTY." },
-            { name: "P Nation", group: "Independent Label", desc: "High-velocity independent agency founded and operated by global star Psy. Roster includes TNX (The New Six), Crush, and Heize." },
-            { name: "BPM Entertainment", group: "Independent Label", desc: "Big Planet Made scaling music label tracking major veteran talent acquisitions. Home to charting acts VIVIZ, Taemin, and BadVillain." },
-            { name: "More Vision", group: "Independent Label", desc: "Boutique performance and style label launched by Jay Park focusing on standard pop transitions mixed with urban dance crews." },
-            { name: "ABYSS Company", group: "Independent Label", desc: "Specialist visual and vocal soloist management house directing artistic portfolios for Sunmi, BamBam, and Sandara Park." },
-            { name: "S2 Entertainment", group: "Independent Label", desc: "Emerging boutique house securing dominant global streaming and chart spots. Home to critically acclaimed group KISS OF LIFE." },
-            { name: "Dreamcatcher Company", group: "Independent Label", desc: "Specialized concept rock-pop unit (Dreamcatcher)." },
-            { name: "Titan Content", group: "Independent Label", desc: "US-KR intersecting entertainment startup bridging global distribution models." },
-            { name: "Grid Entertainment", group: "Independent Label", desc: "Emerging 2020s independent agency (POW)." },
-            { name: "Inb100", group: "Independent Label", desc: "Independent boutique label platform (EXO-CBX)." },
-            { name: "LLOUD", group: "Independent Label", desc: "Lisa personal global artist management platform." },
-            { name: "ODD ATELIER", group: "Independent Label", desc: "Jennie personal artist management house." },
-            { name: "Blissoo", group: "Independent Label", desc: "Jisoo personal artist operations label." },
-            { name: "MLD Entertainment", group: "Independent Label", desc: "Registered Indie Entity (Lapillus)." },
-            { name: "Maroo Entertainment", group: "Independent Label", desc: "Independent Seoul Studio Group (Ghost9)." },
-            { name: "PocketDol Studio", group: "Independent Label", desc: "MBK Media Associated Sub-Label (BAE173)." },
-            { name: "TR Entertainment", group: "Independent Label", desc: "Independent Music Production Label (TRI.BE)." },
-            { name: "GLG (Grandline Group)", group: "Independent Label", desc: "Boutique Production Label House (H1-KEY)." },
-            { name: "OUI Entertainment", group: "Independent Label", desc: "Mid-Tier Independent Label Platform (WEi)." },
-            { name: "Beat Interactive", group: "Independent Label", desc: "Boutique Concept Management Unit (A.C.E)." },
-            { name: "Woollim Labels Division", group: "Independent Label", desc: "Seoul Auxiliary Sub-Label Affiliate." },
-            { name: "ALL-S Company", group: "Independent Label", desc: "Registered Boutique Training Subsidiary." },
-            { name: "Mellow Entertainment", group: "Independent Label", desc: "Independent Artist Management House." },
-            { name: "GF Entertainment", group: "Independent Label", desc: "Independent Music Agency (KINGDOM)." },
-            { name: "FCENM Entertainment", group: "Independent Label", desc: "Boutique Independent Music Label." },
-            { name: "Spire Entertainment", group: "Independent Label", desc: "Independent Pop Music Label Group." },
-            { name: "Rain We Company", group: "Independent Label", desc: "Rain Founded Artist Development Hub." },
-            { name: "Universal Kiwon", group: "Independent Label", desc: "Global Joint Venture Korean Branch Label." },
-            { name: "Chrome Entertainment", group: "Independent Label", desc: "Legacy Boutique Independent Label." },
-            { name: "B2M Legacy Division", group: "Independent Label", desc: "Independent Auxiliary Portfolio Vault." },
+            { name: "Blossom Entertainment", group: "Conglomerate Subsidiary"desc: "Independent Auxiliary Portfolio Vault." },
             { name: "Elen Entertainment", group: "Independent Label", desc: "Boutique Music Management Group." },
             { name: "Double H TNE", group: "Independent Label", desc: "Independent Subsidiary Curation Management." },
             { name: "Coridel Entertainment", group: "Independent Label", desc: "Independent Boutique Music Platform." },
@@ -307,74 +260,7 @@
             { group: "NewJeans", type: "Showcase", detail: "Boutique Concept Track Premium Airing", date: "Aug 22, 2026" },
             { group: "MEOVV", type: "Fan Sign", detail: "The Black Label Core Arena Event", date: "Sept 11, 2026" }
         ];
-
-        const fakeNewPool = [
-            { group: "BLACKPINK", type: "World Tour", detail: "Born Pink Stadium Anniversary Opener", date: "Oct 02, 2026" },
-            { group: "IVE", type: "Comeback", detail: "Mini Album Press Streaming Event", date: "Sept 20, 2026" },
-            { group: "ATEEZ", type: "Concert", detail: "World Curation Tour Final Stage", date: "Oct 15, 2026" }
-        ];
-
-        function renderRegistryDatabase(data) {
-            const grid = document.getElementById('registryGrid');
-            grid.innerHTML = "";
-            if(data.length === 0) {
-                grid.innerHTML = '<div class="col-span-2 text-center py-8 text-gray-400 text-sm">No entertainment entities match your search query.</div>';
-                document.getElementById('counterDisplay').innerText = `0 / 102`;
-                return;
-            }
-            data.forEach(item => {
-                grid.innerHTML += `
-                    <div class="flip-card" onclick="toggleCardFlip(this)">
-                        <div class="flip-card-inner">
-                            <div class="card-front">
-                                <div>
-                                    <h3 class="text-sm font-bold text-white mb-1.5">${item.name}</h3>
-                                    <span class="inline-block text-[9px] font-bold bg-[#0b0f19] border border-[#374151] text-purple-400 px-2 py-0.5 rounded uppercase">${item.group}</span>
-                                </div><p class="text-[10px] text-gray-400 text-right">Tap to view portfolio &rarr;</p>
-                            </div>
-                            <div class="card-back">
-                                <h4 class="text-xs font-bold text-pink-400 uppercase mb-1">${item.name}</h4>
-                                <p class="text-xs text-gray-200 leading-relaxed overflow-y-auto max-h-[90px] pr-1">${item.desc}</p>
-                            </div>
-                        </div>
-                    </div>`;
-            });
-            document.getElementById('counterDisplay').innerText = `${data.length} / 102`;
-        }
-
-        function renderLiveEvents(data) {
-            const container = document.getElementById('liveEventsContainer');
-            container.innerHTML = "";
-            if(data.length === 0) {
-                container.innerHTML = '<div class="text-center py-6 text-gray-400 text-xs">No active events match your search query.</div>';
-                return;
-            }
-            data.forEach(ev => {
-                container.innerHTML += `
-                    <div class="bg-[#1f2937] border-l-4 border-pink-500 p-3 rounded-r-lg flex justify-between items-center shadow-sm">
-                        <div>
-                            <h4 class="text-xs font-bold text-white">${ev.group}</h4>
-                            <p class="text-[11px] text-purple-300 mt-0.5">${ev.detail}</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="bg-pink-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">${ev.type}</span>
-                            <p class="text-[10px] text-gray-400 mt-1">${ev.date}</p>
-                        </div>
-                    </div>`;
-            });
-        }
-
-        function toggleCardFlip(cardElement) {
-            cardElement.classList.toggle('flipped');
-        }
-
-        function filterRegistryData() {
-            const query = document.getElementById('searchBar').value.toLowerCase();
-            renderRegistryDatabase(kpopRegistry.filter(a => a.name.toLowerCase().includes(query)));
-        }
-
-        function filterLiveEvents() {
-            const query = document.getElementById('eventSearchBar').value.toLowerCase();
+                    const query = document.getElementById('eventSearchBar').value.toLowerCase();
             renderLiveEvents(activeLiveEvents.filter(e => e.group.toLowerCase().includes(query)));
         }
 
