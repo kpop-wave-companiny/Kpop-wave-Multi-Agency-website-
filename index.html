@@ -8,34 +8,122 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; color: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; color: #ffffff; padding: 16px; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
         .registry-grid-box::-webkit-scrollbar, .event-list-box::-webkit-scrollbar { width: 6px; }
         .registry-grid-box::-webkit-scrollbar-track, .event-list-box::-webkit-scrollbar-track { background: #111827; }
         .registry-grid-box::-webkit-scrollbar-thumb, .event-list-box::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
         
-        /* Fixed 3D Flip Card Styles for Mobile & Desktop */
-        .flip-card { background-color: transparent; width: 100%; height: 185px; perspective: 1000px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
-        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-        .card-front, .card-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        .card-front { background-color: #1f2937; border: 1px solid #374151; color: #ffffff; z-index: 2; }
-        .card-back { background-color: #1e1b4b; border: 1px solid #7e22ce; color: #f3f4f6; transform: rotateY(180deg); z-index: 1; }
+        /* 3D Flip Card Template Styles */
+        .card-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 180px;
+            margin-bottom: 12px;
+        }
+        .flip-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .flip-card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 16px;
+            background: #161b26;
+            border: 1px solid #242b3d;
+            box-sizing: border-box;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-front {
+            justify-content: space-between;
+        }
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .company-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #242b3d;
+            border: 1px solid #374151;
+            flex-shrink: 0;
+        }
+        .company-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            color: #ffffff;
+        }
+        .tag-badge {
+            display: inline-block;
+            background: rgba(147, 51, 234, 0.2);
+            color: #c084fc;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .action-hint {
+            font-size: 12px;
+            color: #8b5cf6;
+            text-align: right;
+            margin: 0;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+            background: #1a102f;
+            border-color: #4c1d95;
+        }
+        .back-heading {
+            font-size: 12px;
+            color: #a78bfa;
+            margin: 0 0 6px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .description-text {
+            font-size: 12px;
+            color: #e2e8f0;
+            line-height: 1.4;
+            margin: 0;
+            overflow-y: auto;
+            max-height: 100px;
+            padding-right: 2px;
+        }
     </style>
 </head>
 <body class="bg-[#0b0f19] text-[#f3f4f6] min-h-screen flex flex-col">
 
     <!-- Header Section -->
-    <header class="bg-[#111827]/95 px-4 py-5 sticky top-0 z-50 border-b border-[#1f2937] backdrop-blur-md">
+    <header class="bg-[#111827]/95 px-4 py-4 sticky top-0 z-50 border-b border-[#1f2937] backdrop-blur-md mb-4 rounded-xl">
         <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
             <div>
-                <h1 class="text-2xl font-bold text-white bg-gradient-to-r from-[#c084fc] to-[#f472b6] bg-clip-text text-transparent">
+                <h1 class="text-xl font-bold text-white bg-gradient-to-r from-[#c084fc] to-[#f472b6] bg-clip-text text-transparent">
                     K-Pop Wave Entertainment Portal
                 </h1>
-                <p class="text-xs text-gray-400 mt-1">Matrix 2026 Registry • Official South Korean Entertainment Database</p>
+                <p class="text-xs text-gray-400 mt-0.5">Matrix 2026 Registry • Official South Korean Entertainment Database</p>
             </div>
             
             <div class="flex items-center gap-3 w-full md:w-auto justify-center">
-                <div class="translate-box flex items-center gap-2 bg-[#1f2937] px-3 py-2 rounded-xl border border-[#374151]">
+                <div class="translate-box flex items-center gap-2 bg-[#1f2937] px-3 py-1.5 rounded-xl border border-[#374151]">
                     <span class="text-xs text-purple-300 font-semibold">🌐 Translate:</span>
                     <div id="google_translate_element"></div>
                 </div>
@@ -44,22 +132,22 @@
     </header>
 
     <!-- Main Layout -->
-    <main class="max-w-[1400px] mx-auto w-full p-4 md:p-8 grid grid-cols-1 lg:grid-cols-7 gap-8 flex-grow">
+    <main class="max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-7 gap-6 flex-grow">
         
         <!-- Left Panel: Registry & Events -->
-        <div class="lg:col-span-4 flex flex-col gap-6 mobile-order-1">
+        <div class="lg:col-span-4 flex flex-col gap-6">
             
             <!-- Registry Card -->
-            <div class="bg-[#111827] border border-[#1f2937] p-5 rounded-2xl shadow-xl">
-                <div class="flex justify-between items-start mb-4">
+            <div class="bg-[#111827] border border-[#1f2937] p-4 rounded-2xl shadow-xl">
+                <div class="flex justify-between items-start mb-3">
                     <div>
-                        <h2 class="text-lg font-bold text-white">Entertainment Matrix Registry</h2>
+                        <h2 class="text-base font-bold text-white">Entertainment Matrix Registry</h2>
                         <p class="text-xs text-gray-400 mt-0.5">Explore verified talent agencies & management firms</p>
                     </div>
                     <span id="counterDisplay" class="bg-purple-900/50 text-purple-200 text-xs font-bold px-2.5 py-1 border border-purple-500/40 rounded-lg">102 / 102</span>
                 </div>
 
-                <input type="text" id="searchBar" onkeyup="filterRegistryData()" placeholder="Search company by name..." class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-purple-500 mb-4 transition-all">
+                <input type="text" id="searchBar" onkeyup="filterRegistryData()" placeholder="Search company by name..." class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-4 py-2.5 text-white text-sm outline-none focus:border-purple-500 mb-3 transition-all">
 
                 <!-- Filter Buttons -->
                 <div class="flex flex-wrap gap-2 mb-2">
@@ -70,50 +158,53 @@
                 </div>
 
                 <!-- Registry Grid Box -->
-                <div id="registryGrid" class="registry-grid-box grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto pr-2 mt-4">
+                <div id="registryGrid" class="registry-grid-box grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto pr-1 mt-3">
                     <!-- Dynamic Cards Render Here -->
                 </div>
             </div>
 
             <!-- Automated Events Feed -->
-            <div class="bg-[#111827] border border-[#1f2937] p-5 rounded-2xl shadow-xl">
+            <div class="bg-[#111827] border border-[#1f2937] p-4 rounded-2xl shadow-xl">
                 <div class="flex justify-between items-start mb-3">
                     <div>
-                        <h2 class="text-lg font-bold text-white">Live Automated Events Tracker</h2>
-                        <p class="text-xs text-gray-400 mt-0.5">Real-time worldwide K-Pop updates (Fully Auto)</p>
+                        <h2 class="text-base font-bold text-white">Live Automated Events Tracker</h2>
+                        <p class="text-xs text-gray-400 mt-0.5">Real-time global news & upcoming events across all platforms</p>
                     </div>
                     <span class="bg-pink-900/40 text-pink-300 text-[10px] font-bold px-2 py-0.5 border border-pink-500/30 rounded animate-pulse" id="feedStatus">Fetching Live...</span>
                 </div>
 
-                <input type="text" id="eventSearchBar" onkeyup="filterLiveEvents()" placeholder="Search live updates..." class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-4 py-2.5 text-white text-sm outline-none focus:border-pink-500 mb-3">
+                <!-- Upgraded Search Bar for Events & News -->
+                <input type="text" id="eventSearchBar" onkeyup="filterLiveEvents()" placeholder="Search upcoming events, concerts, or global news..." class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-4 py-2.5 text-white text-sm outline-none focus:border-pink-500 mb-3 transition-all">
 
                 <div id="liveEventsContainer" class="event-list-box max-h-[260px] overflow-y-auto flex flex-col gap-2.5 pr-1">
                     <!-- Automated Events Render Here -->
                 </div>
             </div>
 
-        </div><!-- Right Panel: Fan Inquiry Desk -->
-        <div class="lg:col-span-3 mobile-order-2">
-            <div class="bg-[#111827] border border-purple-900/50 p-6 rounded-2xl shadow-2xl sticky top-24">
-                <div class="mb-4">
-                    <h2 class="text-lg font-bold text-white">Fan Inquiry Desk</h2>
+        </div>
+
+        <!-- Right Panel: Fan Inquiry Desk -->
+        <div class="lg:col-span-3">
+            <div class="bg-[#111827] border border-purple-900/50 p-5 rounded-2xl shadow-2xl sticky top-20">
+                <div class="mb-3">
+                    <h2 class="text-base font-bold text-white">Fan Inquiry Desk</h2>
                     <p class="text-xs text-purple-300 mt-0.5">Official Direct Management Dispatcher</p>
                 </div>
 
                 <form id="inquiryForm" action="https://formspree.io/f/xykrybvv" method="POST" onsubmit="handleFormSubmit(event)">
-                    <div class="mb-3.5">
-                        <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">Your Name</label>
-                        <input type="text" name="name" required class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3.5 py-2.5 text-white text-sm outline-none focus:border-purple-500" placeholder="Enter full name">
+                    <div class="mb-3">
+                        <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Your Name</label>
+                        <input type="text" name="name" required class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3 py-2 text-white text-xs outline-none focus:border-purple-500" placeholder="Enter full name">
                     </div>
 
-                    <div class="mb-3.5">
-                        <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">Email Address</label>
-                        <input type="email" name="email" required class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3.5 py-2.5 text-white text-sm outline-none focus:border-purple-500" placeholder="name@domain.com">
+                    <div class="mb-3">
+                        <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Email Address</label>
+                        <input type="email" name="email" required class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3 py-2 text-white text-xs outline-none focus:border-purple-500" placeholder="name@domain.com">
                     </div>
 
-                    <div class="mb-3.5">
-                        <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">Target Artist / Group</label>
-                        <select name="target_artist" class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3.5 py-2.5 text-white text-sm outline-none cursor-pointer">
+                    <div class="mb-3">
+                        <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Target Artist / Group</label>
+                        <select name="target_artist" class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3 py-2 text-white text-xs outline-none cursor-pointer">
                             <option value="BTS">BTS</option>
                             <option value="FANTAGIO/ASTRO">FANTAGIO / ASTRO</option>
                             <option value="FNC/SF9">FNC / SF9</option>
@@ -122,9 +213,9 @@
                         </select>
                     </div>
 
-                    <div class="mb-3.5">
-                        <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">Inquiry Type</label>
-                        <select name="inquiry_type" class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3.5 py-2.5 text-white text-sm outline-none cursor-pointer">
+                    <div class="mb-3">
+                        <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Inquiry Type</label>
+                        <select name="inquiry_type" class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3 py-2 text-white text-xs outline-none cursor-pointer">
                             <option value="Official Membership Card Booking">Official Membership Card Booking</option>
                             <option value="Fan Club Tier Upgrade (VIP/Premium/Gold)">Fan Club Tier Upgrade (VIP/Premium/Gold)</option>
                             <option value="Event Ticketing Support">Event Ticketing Support</option>
@@ -139,24 +230,22 @@
                         </select>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Favorite K-Pop Idol Name</label>
+                        <input type="text" name="favorite_idol" class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3 py-2 text-white text-xs outline-none focus:border-purple-500" placeholder="e.g., Jimin, Cha Eun-woo, Lisa">
+                    </div>
+
                     <div class="mb-3.5">
-                        <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">Favorite K-Pop Idol Name</label>
-                        <input type="text" name="favorite_idol" class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3.5 py-2.5 text-white text-sm outline-none focus:border-purple-500" placeholder="e.g., Jimin, Cha Eun-woo, Lisa">
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">Request Details</label>
-                        <textarea name="request_details" rows="3" required class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3.5 py-2.5 text-white text-sm outline-none focus:border-purple-500 resize-none" placeholder="Provide complete information regarding your request..."></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm py-3 px-4 rounded-xl shadow-lg transition-all cursor-pointer">
+                        <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Request Details</label>
+                        <textarea name="request_details" rows="2" required class="w-full bg-[#1f2937] border border-[#374151] rounded-xl px-3 py-2 text-white text-xs outline-none focus:border-purple-500 resize-none" placeholder="Provide complete information regarding your request..."></textarea>
+                            </div> <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-lg transition-all cursor-pointer">
                         Submit Official Inquiry
                     </button>
                 </form>
 
-                <div class="text-center mt-4 pt-3 border-t border-[#1f2937]">
-                    <p class="text-xs text-gray-400">Direct Support Email:</p>
-                    <a href="mailto:support.kpop.wave.portal897@gmail.com" class="text-xs text-purple-400 font-semibold hover:underline">support.kpop.wave.portal897@gmail.com</a>
+                <div class="text-center mt-3 pt-2 border-t border-[#1f2937]">
+                    <p class="text-[11px] text-gray-400">Direct Support Email:</p>
+                    <a href="mailto:support.kpop.wave.portal897@gmail.com" class="text-[11px] text-purple-400 font-semibold hover:underline">support.kpop.wave.portal897@gmail.com</a>
                 </div>
             </div>
         </div>
@@ -176,8 +265,10 @@
                 Understood & Return to Portal
             </button>
         </div>
-    </div> <!-- Footer -->
-    <footer class="border-t border-[#1f2937] bg-[#030712] text-center p-4 text-xs text-gray-500 mt-auto">
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#1f2937] bg-[#030712] text-center p-4 text-xs text-gray-500 mt-auto mt-6">
         © 2026 K-Pop Wave Entertainment Portal. Matrix Network. All rights reserved.
     </footer>
 
@@ -197,140 +288,155 @@
     <!-- Application Script Logic & Database -->
     <script>
         const kpopRegistry = [
-            { name: "Big Hit Music", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Big_Hit_Music_logo.svg/512px-Big_Hit_Music_logo.svg.png", desc: "Foundational flagship pillar of HYBE Corporation. Manages global icons BTS and Tomorrow X Together (TXT)." },
-            { name: "Pledis Entertainment", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Pledis_Entertainment_logo_%282020%29.svg/512px-Pledis_Entertainment_logo_%282020%29.svg.png", desc: "Major HYBE subsidiary label operating historical performance forces SEVENTEEN, fromis_9, and rookie group TWS." },
-            { name: "Belift Lab", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Belift_Lab_logo.svg/512px-Belift_Lab_logo.svg.png", desc: "HYBE corporate music house created through massive media selection systems. Handles ENHYPEN and ILLIT." },
-            { name: "Source Music", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Source_Music_logo.svg/512px-Source_Music_logo.svg.png", desc: "Specialized girl group music development arm acquired by HYBE. Prominently produces and manages LE SSERAFIM." },
-            { name: "ADOR", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/ADOR_logo.svg/512px-ADOR_logo.svg.png", desc: "Boutique global pop concept agency under HYBE framework. Home to record-breaking continuous hitmakers NewJeans." },
-            { name: "KOZ Entertainment", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/KOZ_Entertainment_logo.svg/512px-KOZ_Entertainment_logo.svg.png", desc: "Trendsetting alternative, hip-hop and pop-focused subsidiary founded by Zico. Home to BOYNEXTDOOR." },
-            { name: "HYBE Labels Japan", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/HYBE_Labels_Japan_logo.svg/512px-HYBE_Labels_Japan_logo.svg.png", desc: "Tokyo-localized performance management infrastructure expanding market visibility. Manages global pop band &TEAM." },
-            { name: "NAECO", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "HYBE localized independent subsidiary agency specializing in tracking premier domestic Japanese solo actor-artist profiles." },
-            { name: "SM Entertainment", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SM_Entertainment_Logo_2023.svg/512px-SM_Entertainment_Logo_2023.svg.png", desc: "Legendary powerhouse creator of generational modern idol blueprints. Rules rosters including NCT, Aespa, RIIZE, and Red Velvet." },
-            { name: "Mystic Story", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Mystic_Story_logo.svg/512px-Mystic_Story_logo.svg.png", desc: "Subsidiary creative division under SM Entertainment focused on alternative pop bands, balladeers, and actors. Manages Billlie." },
-            { name: "ScreaM Records", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SM_Entertainment_Logo_2023.svg/512px-SM_Entertainment_Logo_2023.svg.png", desc: "Electronic dance music label sub-division under SM Entertainment. Produces global remixes and EDM projects." },
-            { name: "KRUCIALIZE", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SM_Entertainment_Logo_2023.svg/512px-SM_Entertainment_Logo_2023.svg.png", desc: "Newly structured niche contemporary R&B label operating within the internal SM Entertainment production pipeline." },
-            { name: "Label SJ", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SM_Entertainment_Logo_2023.svg/512px-SM_Entertainment_Logo_2023.svg.png", desc: "Customized dedicated management unit established inside SM Entertainment exclusively for veteran legends Super Junior." },
-            { name: "Label V", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SM_Entertainment_Logo_2023.svg/512px-SM_Entertainment_Logo_2023.svg.png", desc: "Specialized subsidiary branch of SM Entertainment coordinating all active promotions for Chinese market localized unit WayV." },
-            { name: "YG Entertainment", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/YG_Entertainment_logo.svg/512px-YG_Entertainment_logo.svg.png", desc: "Iconic powerhouse driving the global hip-hop influence across Korean music. Roster features BLACKPINK, TREASURE, and BABYMONSTER." },
-            { name: "The Black Label", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/The_Black_Label_logo.svg/512px-The_Black_Label_logo.svg.png", desc: "YG partner agency and production powerhouse headed by producer Teddy Park. Manages Somi, Taeyang, and rookie group MEOVV." },
-            { name: "YG Plus", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/YG_Entertainment_logo.svg/512px-YG_Entertainment_logo.svg.png", desc: "Auxiliary corporate distribution network under YG managing high-volume music distribution, merchandise curation, and global physical media." },
-            { name: "JYP Division 1", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/JYP_Entertainment_logo_2023.svg/512px-JYP_Entertainment_logo_2023.svg.png", desc: "Internal rapid-production label pipeline created by JYP Entertainment to manage groups 2PM and global touring leaders Stray Kids." },
-            { name: "JYP Division 2", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/JYP_Entertainment_logo_2023.svg/512px-JYP_Entertainment_logo_2023.svg.png", desc: "Internal customized task force division operating within JYP Entertainment to direct global charting lines ITZY and NEXZ." },
-            { name: "JYP Division 3", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/JYP_Entertainment_logo_2023.svg/512px-JYP_Entertainment_logo_2023.svg.png", desc: "Dedicated global production pipeline managing TWICE and related solo artist operations." },
-            { name: "JYP Division 4", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/JYP_Entertainment_logo_2023.svg/512px-JYP_Entertainment_logo_2023.svg.png", desc: "Specialized artist management unit managing NMIXX and upcoming vocal talent groups." },
-            { name: "JYP SQU4D", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/JYP_Entertainment_logo_2023.svg/512px-JYP_Entertainment_logo_2023.svg.png", desc: "Boutique creative unit under JYP operating specialized idol concepts." },
-            { name: "Studio J", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/JYP_Entertainment_logo_2023.svg/512px-JYP_Entertainment_logo_2023.svg.png", desc: "Independent music band label subsidiary under JYP Entertainment." },
-            { name: "Innit Entertainment", group: "Big 4 Ecosystem", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/JYP_Entertainment_logo_2023.svg/512px-JYP_Entertainment_logo_2023.svg.png", desc: "Associated talent nurturing subsidiary within the broader JYP management cluster." },
-            { name: "Starship Entertainment", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Starship_Entertainment_logo.svg/512px-Starship_Entertainment_logo.svg.png", desc: "Kakao Entertainment powerhouse managing IVE, MONSTA X, CRAVITY, and WJSN." },
-            { name: "IST Entertainment", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/IST_Entertainment_logo.svg/512px-IST_Entertainment_logo.svg.png", desc: "Kakao subsidiary managing Apink, VICTON, The Boyz (associated operations), and ATBO." },
-            { name: "EDAM Entertainment", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/EDAM_Entertainment_logo.svg/512px-EDAM_Entertainment_logo.svg.png", desc: "Exclusive artist management home representing elite soloist IU and actor/singer Woodz." },
-            { name: "Highup Entertainment", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Highup_Entertainment_logo.svg/512px-Highup_Entertainment_logo.svg.png", desc: "Hitmaker Black Eyed Pilseung founded boutique label housing girl group STAYC." },
-            { name: "Antenna", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Antenna_%28record_label%29_logo.svg/512px-Antenna_%28record_label%29_logo.svg.png", desc: "Singer-songwriter powerhouse label founded by Yoo Hee-yeol, housing Yoo Jae-suk and Kyuhyun." },
-            { name: "Blossom Entertainment", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Prominent actor management agency partnered with major media infrastructure." },
-            { name: "FLEX M", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Starship_Entertainment_logo.svg/512px-Starship_Entertainment_logo.svg.png", desc: "OST production and music management label under Kakao Entertainment." },{ name: "WakeOne", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/WakeOne_logo.svg/512px-WakeOne_logo.svg.png", desc: "CJ ENM multi-label subsidiary managing project groups like ZEROBASEONE and Kep1er." },
-            { name: "Modhaus", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Innovative blockchain-backed fan participation agency managing tripleS and ARTMS." },
-            { name: "Lapone Entertainment", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Joint venture between CJ ENM and Yoshimoto Kogyo managing JO1 and INI." },
-            { name: "AOMG", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/AOMG_logo.svg/512px-AOMG_logo.svg.png", desc: "Renowned independent hip-hop and R&B record label operating under CJ ENM partnership." },
-            { name: "H1ghr Music", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/H1ghr_Music_logo.svg/512px-H1ghr_Music_logo.svg.png", desc: "Global hip-hop label affiliate under the CJ ENM ecosystem focusing on street culture, urban rappers, and crossover artists." },
-            { name: "Amoeba Culture", group: "Conglomerate Subsidiary", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Longstanding urban hip-hop agency and distribution network allied with major conglomerate funding matrix channels." },
-            { name: "RBW (Rainbow Bridge World)", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/RBW_logo.svg/512px-RBW_logo.svg.png", desc: "Publicly traded multi-label corporate powerhouse famous for vocal mastery. Roster includes Mamamoo, Oneus, and Purple Kiss." },
-            { name: "WM Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/RBW_logo.svg/512px-RBW_logo.svg.png", desc: "Established pop agency acquired by RBW group. Maintains independent management over groups Oh My Girl, ONF, and Lee Chae-yeon." },
-            { name: "DSP Media", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/RBW_logo.svg/512px-RBW_logo.svg.png", desc: "Historic legacy agency fully integrated into the RBW ecosystem to handle active pop groups KARD, MIRAE, and Young Posse." },
-            { name: "Urban Works Media", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/RBW_logo.svg/512px-RBW_logo.svg.png", desc: "RBW acquired production house managing specialized content creations, commercial media, and auxiliary actor profiles." },
-            { name: "Cube Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Cube_Entertainment_logo.svg/512px-Cube_Entertainment_logo.svg.png", desc: "Public independent giant known for self-producing global powerhouse groups. Handles mega acts (G)I-DLE and NOWADAYS." },
-            { name: "FNC Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/FNC_Entertainment_logo.svg/512px-FNC_Entertainment_logo.svg.png", desc: "Publicly traded house blending traditional pop acts with idol-rock formations. Manages SF9, P1Harmony, N.Flying, and AmpersandOne." },
-            { name: "KQ Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Powerhouse independent agency driving monumental international concert tours. Home to global forces ATEEZ and xikers." },
-            { name: "Fantagio", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Publicly listed entertainment company managing a balanced portfolio of top-tier television actors and pop idol lines ASTRO and LUN8." },
-            { name: "Jellyfish Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Established independent management firm operating acting and music lineups. Directs charts for Verivery and global group EVNNE." },
-            { name: "Woollim Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Mid-tier legacy company recognized for highly synchronized choreographic blueprint development. Home to Infinite and Golden Child." },
-            { name: "Yuehua Entertainment Korea", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Active local subsidiary office of the massive Chinese parent media group. Directs actions for EVERGLOW, Tempest, and Yena." },
-            { name: "Brand New Music", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent label focusing heavily on alternative Korean hip-hop, rap-pop crossovers, and idol groups AB6IX and YOUNITE." },
-            { name: "C9 Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent music agency known for intense concept-driven boy groups. Coordinates schedules for active groups CIX and EPEX." },
-            { name: "TOP Media", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Veteran artist-founded independent management house managing high-energy performance concepts. Home to global rookie line MCND." },
-            { name: "Brave Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Producer-led music label directed by hitmaker Brave Brothers. Manages alternative pop acts and rookie girl group Candy Shop." },
-            { name: "ATTRAKT", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Boutique agency that made history with historic viral global breakout charting positions. Directs active roster systems for FIFTY FIFTY." },{ name: "P Nation", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/P_Nation_logo.svg/512px-P_Nation_logo.svg.png", desc: "High-velocity independent agency founded and operated by global star Psy. Roster includes TNX (The New Six), Crush, and Heize." },
-            { name: "BPM Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Big Planet Made scaling music label tracking major veteran talent acquisitions. Home to charting acts VIVIZ, Taemin, and BadVillain." },
-            { name: "More Vision", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Boutique performance and style label launched by Jay Park focusing on standard pop transitions mixed with urban dance crews." },
-            { name: "ABYSS Company", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Specialist visual and vocal soloist management house directing artistic portfolios for Sunmi, BamBam, and Sandara Park." },
-            { name: "S2 Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Emerging boutique house securing dominant global streaming and chart spots. Home to critically acclaimed group KISS OF LIFE." },
-            { name: "Dreamcatcher Company", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Specialized concept rock-pop unit (Dreamcatcher)." },
-            { name: "Titan Content", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "US-KR intersecting entertainment startup bridging global distribution models." },
-            { name: "Grid Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Emerging 2020s independent agency (POW)." },
-            { name: "Inb100", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SM_Entertainment_Logo_2023.svg/512px-SM_Entertainment_Logo_2023.svg.png", desc: "Independent boutique label platform (EXO-CBX)." },
-            { name: "LLOUD", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/YG_Entertainment_logo.svg/512px-YG_Entertainment_logo.svg.png", desc: "Lisa personal global artist management platform." },
-            { name: "ODD ATELIER", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/YG_Entertainment_logo.svg/512px-YG_Entertainment_logo.svg.png", desc: "Jennie personal artist management house." },
-            { name: "Blissoo", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/YG_Entertainment_logo.svg/512px-YG_Entertainment_logo.svg.png", desc: "Jisoo personal artist operations label." },
-            { name: "MLD Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Registered Indie Entity (Lapillus)." },
-            { name: "Maroo Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Seoul Studio Group (Ghost9)." },
-            { name: "PocketDol Studio", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "MBK Media Associated Sub-Label (BAE173)." },
-            { name: "TR Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Music Production Label (TRI.BE)." },
-            { name: "GLG (Grandline Group)", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Boutique Production Label House (H1-KEY)." },
-            { name: "OUI Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Mid-Tier Independent Label Platform (WEi)." },
-            { name: "Beat Interactive", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Boutique Concept Management Unit (A.C.E)." },
-            { name: "Woollim Labels Division", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Seoul Auxiliary Sub-Label Affiliate." },
-            { name: "ALL-S Company", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Registered Boutique Training Subsidiary." },
-            { name: "Mellow Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Artist Management House." },
-            { name: "GF Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Music Agency (KINGDOM)." },
-            { name: "FCENM Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Boutique Independent Music Label." },
-            { name: "Spire Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Pop Music Label Group." },
-            { name: "Rain We Company", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Rain Founded Artist Development Hub." },
-            { name: "Universal Kiwon", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Global Joint Venture Korean Branch Label." },
-            { name: "Chrome Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Legacy Boutique Independent Label." },
-            { name: "B2M Legacy Division", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Auxiliary Portfolio Vault." },
-            { name: "Elen Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Boutique Music Management Group." },
-            { name: "Double H TNE", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Subsidiary Curation Management." },
-            { name: "Coridel Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Boutique Music Platform." },
-            { name: "SWMP Group", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Specialized Media Co." },
-            { name: "Think Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Pop & Variety Label Platform." },
-            { name: "Majesty Agency", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Seoul Registered Indie Production Office." },
-            { name: "Interpark Music Plus", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Distribution Corporate Sub-Label Division." },
-            { name: "Great M Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Music Management Boutique Studio." }, { name: "WKS ENE", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Joint-Venture Independent Sub-Label Network." },
-            { name: "PA Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Boutique Indie Music Management Group." },
-            { name: "JG Star Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Content & Music Production Unit." },
-            { name: "Wings Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Registered Independent Training Sub-Unit." },
-            { name: "A Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Boutique Sub-Label Group Platform." },
-            { name: "KM Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Media Music Group Platform." },
-            { name: "One Cool Jacso", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Cross-Border Local Independent Sub-Label." },
-            { name: "VT Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Boutique Independent Training House." },
-            { name: "J-Rock KR Division", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Strategic Regional Independent Office." },
-            { name: "WH Creative", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Boutique Artist Curation Label." },
-            { name: "220 Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Independent Local Pop Music Production Label." },
-            { name: "Unbound Entertainment", group: "Independent Label", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png", desc: "Boutique Global Management Sub-Agency Unit." }
+            { name: "Big Hit Music", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80", desc: "Foundational flagship pillar of HYBE Corporation. Manages global icons BTS and Tomorrow X Together (TXT)." },
+            { name: "Pledis Entertainment", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=150&auto=format&fit=crop&q=80", desc: "Major HYBE subsidiary label operating historical performance forces SEVENTEEN, fromis_9, and rookie group TWS." },
+            { name: "Belift Lab", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=150&auto=format&fit=crop&q=80", desc: "HYBE corporate music house created through massive media selection systems. Handles ENHYPEN and ILLIT." },
+            { name: "Source Music", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150&auto=format&fit=crop&q=80", desc: "Specialized girl group music development arm acquired by HYBE. Prominently produces and manages LE SSERAFIM." },
+            { name: "ADOR", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150&auto=format&fit=crop&q=80", desc: "Boutique global pop concept agency under HYBE framework. Home to record-breaking continuous hitmakers NewJeans." },
+            { name: "KOZ Entertainment", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&auto=format&fit=crop&q=80", desc: "Trendsetting alternative, hip-hop and pop-focused subsidiary founded by Zico. Home to BOYNEXTDOOR." },
+            { name: "HYBE Labels Japan", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150&auto=format&fit=crop&q=80", desc: "Tokyo-localized performance management infrastructure expanding market visibility. Manages global pop band &TEAM." },
+            { name: "NAECO", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=150&auto=format&fit=crop&q=80", desc: "HYBE localized independent subsidiary agency specializing in tracking premier domestic Japanese solo actor-artist profiles." },
+            { name: "SM Entertainment", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80", desc: "Legendary powerhouse creator of generational modern idol blueprints. Rules rosters including NCT, Aespa, RIIZE, and Red Velvet." },
+            { name: "Mystic Story", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&auto=format&fit=crop&q=80", desc: "Subsidiary creative division under SM Entertainment focused on alternative pop bands, balladeers, and actors. Manages Billlie." },
+            { name: "ScreaM Records", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=150&auto=format&fit=crop&q=80", desc: "Electronic dance music label sub-division under SM Entertainment. Produces global remixes and EDM projects." },
+            { name: "KRUCIALIZE", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&auto=format&fit=crop&q=80", desc: "Newly structured niche contemporary R&B label operating within the internal SM Entertainment production pipeline." },
+            { name: "Label SJ", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=150&auto=format&fit=crop&q=80", desc: "Customized dedicated management unit established inside SM Entertainment exclusively for veteran legends Super Junior." },
+            { name: "Label V", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80", desc: "Specialized subsidiary branch of SM Entertainment coordinating all active promotions for Chinese market localized unit WayV." },
+            { name: "YG Entertainment", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150&auto=format&fit=crop&q=80", desc: "Iconic powerhouse driving the global hip-hop influence across Korean music. Roster features BLACKPINK, TREASURE, and BABYMONSTER." },
+            { name: "The Black Label", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150&auto=format&fit=crop&q=80", desc: "YG partner agency and production powerhouse headed by producer Teddy Park. Manages Somi, Taeyang, and rookie group MEOVV." },
+            { name: "YG Plus", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150&auto=format&fit=crop&q=80", desc: "Auxiliary corporate distribution network under YG managing high-volume music distribution, merchandise curation, and global physical media." },
+            { name: "JYP Division 1", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=150&auto=format&fit=crop&q=80", desc: "Internal rapid-production label pipeline created by JYP Entertainment to manage groups 2PM and global touring leaders Stray Kids." },
+            { name: "JYP Division 2", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=150&auto=format&fit=crop&q=80", desc: "Internal customized task force division operating within JYP Entertainment to direct global charting lines ITZY and NEXZ." },
+            { name: "JYP Division 3", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80", desc: "Dedicated global production pipeline managing TWICE and related solo artist operations." },
+            { name: "JYP Division 4", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&auto=format&fit=crop&q=80", desc: "Specialized artist management unit managing NMIXX and upcoming vocal talent groups." },
+            { name: "JYP SQU4D", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=150&auto=format&fit=crop&q=80", desc: "Boutique creative unit under JYP operating specialized idol concepts." },
+            { name: "Studio J", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80", desc: "Independent music band label subsidiary under JYP Entertainment." },
+            { name: "Innit Entertainment", group: "Big 4 Ecosystem", logo: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&auto=format&fit=crop&q=80", desc: "Associated talent nurturing subsidiary within the broader JYP management cluster." },
+            { name: "Starship Entertainment", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=150&auto=format&fit=crop&q=80", desc: "Kakao Entertainment powerhouse managing IVE, MONSTA X, CRAVITY, and WJSN." },
+            { name: "IST Entertainment", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&auto=format&fit=crop&q=80", desc: "Kakao subsidiary managing Apink, VICTON, The Boyz (associated operations), and ATBO." },
+            { name: "EDAM Entertainment", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=150&auto=format&fit=crop&q=80", desc: "Exclusive artist management home representing elite soloist IU and actor/singer Woodz." },
+            { name: "Highup Entertainment", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80", desc: "Hitmaker Black Eyed Pilseung founded boutique label housing girl group STAYC." },
+            { name: "Antenna", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150&auto=format&fit=crop&q=80", desc: "Singer-songwriter powerhouse label founded by Yoo Hee-yeol, housing Yoo Jae-suk and Kyuhyun." },
+            { name: "Blossom Entertainment", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150&auto=format&fit=crop&q=80", desc: "Prominent actor management agency partnered with major media infrastructure." },
+            { name: "FLEX M", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150&auto=format&fit=crop&q=80", desc: "OST production and music management label under Kakao Entertainment." },
+            { name: "WakeOne", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=150&auto=format&fit=crop&q=80", desc: "CJ ENM multi-label subsidiary managing project groups like ZEROBASEONE and Kep1er." },
+            { name: "Modhaus", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=150&auto=format&fit=crop&q=80", desc: "Innovative blockchain-backed fan participation agency managing tripleS and ARTMS." },
+            { name: "Lapone Entertainment", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80", desc: "Joint venture between CJ ENM and Yoshimoto Kogyo managing JO1 and INI." },
+            { name: "AOMG", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&auto=format&fit=crop&q=80", desc: "Renowned independent hip-hop and R&B record label operating under CJ ENM partnership." },
+            { name: "H1ghr Music", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=150&auto=format&fit=crop&q=80", desc: "Global hip-hop label affiliate under the CJ ENM ecosystem focusing on street culture, urban rappers, and crossover artists." },
+            { name: "Amoeba Culture", group: "Conglomerate Subsidiary", logo: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80", desc: "Longstanding urban hip-hop agency and distribution network allied with major conglomerate funding matrix channels." },
+            { name: "RBW (Rainbow Bridge World)", group: "Independent Label", logo: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&auto=format&fit=crop&q=80", desc: "Publicly traded multi-label corporate powerhouse famous for vocal mastery. Roster includes Mamamoo, Oneus, and Purple Kiss." },
+            { name: "WM Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=150&auto=format&fit=crop&q=80", desc: "Established pop agency acquired by RBW group. Maintains independent management over groups Oh My Girl, ONF, and Lee Chae-yeon." },
+            { name: "DSP Media", group: "Independent Label", logo: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&auto=format&fit=crop&q=80", desc: "Historic legacy agency fully integrated into the RBW ecosystem to handle active pop groups KARD, MIRAE, and Young Posse." },
+            { name: "Urban Works Media", group: "Independent Label", logo: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=150&auto=format&fit=crop&q=80", desc: "RBW acquired production house managing specialized content creations, commercial media, and auxiliary actor profiles." },
+            { name: "Cube Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80", desc: "Public independent giant known for self-producing global powerhouse groups. Handles mega acts (G)I-DLE and NOWADAYS." },
+            { name: "FNC Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150&auto=format&fit=crop&q=80", desc: "Publicly traded house blending traditional pop acts with idol-rock formations. Manages SF9, P1Harmony, N.Flying, and AmpersandOne." },
+            { name: "KQ Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150&auto=format&fit=crop&q=80", desc: "Powerhouse independent agency driving monumental international concert tours. Home to global forces ATEEZ and xikers." },
+            { name: "Fantagio", group: "Independent Label", logo: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150&auto=format&fit=crop&q=80", desc: "Publicly listed entertainment company managing a balanced portfolio of top-tier television actors and pop idol lines ASTRO and LUN8." },
+            { name: "Jellyfish Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=150&auto=format&fit=crop&q=80", desc: "Established independent management firm operating acting and music lineups. Directs charts for Verivery and global group EVNNE." },
+            { name: "Woollim Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=150&auto=format&fit=crop&q=80", desc: "Mid-tier legacy company recognized for highly synchronized choreographic blueprint development. Home to Infinite and Golden Child." },
+            { name: "Yuehua Entertainment Korea", group: "Independent Label", logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80", desc: "Active local subsidiary office of the massive Chinese parent media group. Directs actions for EVERGLOW, Tempest, and Yena." },{ name: "Brand New Music", group: "Independent Label", logo: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&auto=format&fit=crop&q=80", desc: "Independent label focusing heavily on alternative Korean hip-hop, rap-pop crossovers, and idol groups AB6IX and YOUNITE." },
+            { name: "C9 Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=150&auto=format&fit=crop&q=80", desc: "Independent music agency known for intense concept-driven boy groups. Coordinates schedules for active groups CIX and EPEX." },
+            { name: "TOP Media", group: "Independent Label", logo: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80", desc: "Veteran artist-founded independent management house managing high-energy performance concepts. Home to global rookie line MCND." },
+            { name: "Brave Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&auto=format&fit=crop&q=80", desc: "Producer-led music label directed by hitmaker Brave Brothers. Manages alternative pop acts and rookie girl group Candy Shop." },
+            { name: "ATTRAKT", group: "Independent Label", logo: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=150&auto=format&fit=crop&q=80", desc: "Boutique agency that made history with historic viral global breakout charting positions. Directs active roster systems for FIFTY FIFTY." },
+            { name: "P Nation", group: "Independent Label", logo: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&auto=format&fit=crop&q=80", desc: "High-velocity independent agency founded and operated by global star Psy. Roster includes TNX (The New Six), Crush, and Heize." },
+            { name: "BPM Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=150&auto=format&fit=crop&q=80", desc: "Big Planet Made scaling music label tracking major veteran talent acquisitions. Home to charting acts VIVIZ, Taemin, and BadVillain." },
+            { name: "More Vision", group: "Independent Label", logo: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80", desc: "Boutique performance and style label launched by Jay Park focusing on standard pop transitions mixed with urban dance crews." },
+            { name: "ABYSS Company", group: "Independent Label", logo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150&auto=format&fit=crop&q=80", desc: "Specialist visual and vocal soloist management house directing artistic portfolios for Sunmi, BamBam, and Sandara Park." },
+            { name: "S2 Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150&auto=format&fit=crop&q=80", desc: "Emerging boutique house securing dominant global streaming and chart spots. Home to critically acclaimed group KISS OF LIFE." },
+            { name: "Dreamcatcher Company", group: "Independent Label", logo: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150&auto=format&fit=crop&q=80", desc: "Specialized concept rock-pop unit (Dreamcatcher)." },
+            { name: "Titan Content", group: "Independent Label", logo: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=150&auto=format&fit=crop&q=80", desc: "US-KR intersecting entertainment startup bridging global distribution models." },
+            { name: "Grid Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=150&auto=format&fit=crop&q=80", desc: "Emerging 2020s independent agency (POW)." },
+            { name: "Inb100", group: "Independent Label", logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80", desc: "Independent boutique label platform (EXO-CBX)." },
+            { name: "LLOUD", group: "Independent Label", logo: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&auto=format&fit=crop&q=80", desc: "Lisa personal global artist management platform." },
+            { name: "ODD ATELIER", group: "Independent Label", logo: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=150&auto=format&fit=crop&q=80", desc: "Jennie personal artist management house." },
+            { name: "Blissoo", group: "Independent Label", logo: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80", desc: "Jisoo personal artist operations label." },
+            { name: "MLD Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&auto=format&fit=crop&q=80", desc: "Registered Indie Entity (Lapillus)." },
+            { name: "Maroo Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=150&auto=format&fit=crop&q=80", desc: "Independent Seoul Studio Group (Ghost9)." },
+            { name: "PocketDol Studio", group: "Independent Label", logo: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&auto=format&fit=crop&q=80", desc: "MBK Media Associated Sub-Label (BAE173)." },
+            { name: "TR Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=150&auto=format&fit=crop&q=80", desc: "Independent Music Production Label (TRI.BE)." },
+            { name: "GLG (Grandline Group)", group: "Independent Label", logo: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80", desc: "Boutique Production Label House (H1-KEY)." },
+            { name: "OUI Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150&auto=format&fit=crop&q=80", desc: "Mid-Tier Independent Label Platform (WEi)." },
+            { name: "Beat Interactive", group: "Independent Label", logo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150&auto=format&fit=crop&q=80", desc: "Boutique Concept Management Unit (A.C.E)." },
+            { name: "Woollim Labels Division", group: "Independent Label", logo: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150&auto=format&fit=crop&q=80", desc: "Seoul Auxiliary Sub-Label Affiliate." },
+            { name: "ALL-S Company", group: "Independent Label", logo: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=150&auto=format&fit=crop&q=80", desc: "Registered Boutique Training Subsidiary." },
+            { name: "Mellow Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=150&auto=format&fit=crop&q=80", desc: "Independent Artist Management House." },
+            { name: "GF Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80", desc: "Independent Music Agency (KINGDOM)." },
+            { name: "FCENM Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&auto=format&fit=crop&q=80", desc: "Boutique Independent Music Label." },
+            { name: "Spire Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=150&auto=format&fit=crop&q=80", desc: "Independent Pop Music Label Group." },
+            { name: "Rain We Company", group: "Independent Label", logo: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80", desc: "Rain Founded Artist Development Hub." },
+            { name: "Universal Kiwon", group: "Independent Label", logo: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&auto=format&fit=crop&q=80", desc: "Global Joint Venture Korean Branch Label." },
+            { name: "Chrome Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=150&auto=format&fit=crop&q=80", desc: "Legacy Boutique Independent Label." },
+            { name: "B2M Legacy Division", group: "Independent Label", logo: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&auto=format&fit=crop&q=80", desc: "Independent Auxiliary Portfolio Vault." },
+            { name: "Elen Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=150&auto=format&fit=crop&q=80", desc: "Boutique Music Management Group." },
+            { name: "Double H TNE", group: "Independent Label", logo: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80", desc: "Independent Subsidiary Curation Management." },
+            { name: "Coridel Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150&auto=format&fit=crop&q=80", desc: "Independent Boutique Music Platform." },
+            { name: "SWMP Group", group: "Independent Label", logo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150&auto=format&fit=crop&q=80", desc: "Independent Specialized Media Co." },
+            { name: "Think Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150&auto=format&fit=crop&q=80", desc: "Independent Pop & Variety Label Platform." },
+            { name: "Majesty Agency", group: "Independent Label", logo: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=150&auto=format&fit=crop&q=80", desc: "Seoul Registered Indie Production Office." },
+            { name: "Interpark Music Plus", group: "Independent Label", logo: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=150&auto=format&fit=crop&q=80", desc: "Distribution Corporate Sub-Label Division." },
+            { name: "Great M Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80", desc: "Independent Music Management Boutique Studio." },
+            { name: "WKS ENE", group: "Independent Label", logo: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&auto=format&fit=crop&q=80", desc: "Joint-Venture Independent Sub-Label Network." },
+            { name: "PA Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=150&auto=format&fit=crop&q=80", desc: "Boutique Indie Music Management Group." },
+            { name: "JG Star Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80", desc: "Independent Content & Music Production Unit." },
+            { name: "Wings Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&auto=format&fit=crop&q=80", desc: "Registered Independent Training Sub-Unit." },
+            { name: "A Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=150&auto=format&fit=crop&q=80", desc: "Boutique Sub-Label Group Platform." },
+            { name: "KM Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&auto=format&fit=crop&q=80", desc: "Independent Media Music Group Platform." },
+            { name: "One Cool Jacso", group: "Independent Label", logo: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=150&auto=format&fit=crop&q=80", desc: "Cross-Border Local Independent Sub-Label." },
+            { name: "VT Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80", desc: "Boutique Independent Training House." },
+            { name: "J-Rock KR Division", group: "Independent Label", logo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150&auto=format&fit=crop&q=80", desc: "Strategic Regional Independent Office." },
+            { name: "WH Creative", group: "Independent Label", logo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150&auto=format&fit=crop&q=80", desc: "Independent Boutique Artist Curation Label." },
+            { name: "220 Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150&auto=format&fit=crop&q=80", desc: "Independent Local Pop Music Production Label." },
+            { name: "Unbound Entertainment", group: "Independent Label", logo: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=150&auto=format&fit=crop&q=80", desc: "Boutique Global Management Sub-Agency Unit." }
         ];
 
         let activeLiveEvents = [];
 
+        // AUTOMATED MULTI-SOURCE K-POP NEWS FETCHER
         async function fetchLiveKpopUpdates() {
-            try {
-                const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.soompi.com%2Ffeed');
-                const data = await response.json();
-                
-                if (data && data.items) {
-                    activeLiveEvents = data.items.map(item => {
-                        let title = item.title;
-                        let tagType = "News";
-                        if (title.toLowerCase().includes('comeback')) tagType = "Comeback";
-                        else if (title.toLowerCase().includes('tour') || title.toLowerCase().includes('concert')) tagType = "Tour";
-                        else if (title.toLowerCase().includes('debut')) tagType = "Debut";
-                        else if (title.toLowerCase().includes('watch:')) tagType = "Video";
+            const feedUrls = [
+                'https://api.rss2json.com/v1/api.json?rss_url=https://www.soompi.com/feed',
+                'https://api.rss2json.com/v1/api.json?rss_url=https://www.koreaboo.com/feed'
+            ];try {
+                const promises = feedUrls.map(url => fetch(url).then(res => res.json()).catch(() => null));
+                const results = await Promise.all(promises);
 
-                        let cleanDetail = title.replace(/^(Watch|Update|Listen): /i, '');
-                        if(cleanDetail.length > 55) cleanDetail = cleanDetail.substring(0, 52) + '...';
+                let allNewsItems = [];
+                results.forEach(data => {
+                    if (data && data.status === 'ok' && data.items) {
+                        data.items.forEach(item => {
+                            let title = item.title;
+                            let tagType = "News";
+                            if (title.toLowerCase().includes('comeback')) tagType = "Comeback";
+                            else if (title.toLowerCase().includes('tour') || title.toLowerCase().includes('concert')) tagType = "Tour";
+                            else if (title.toLowerCase().includes('debut')) tagType = "Debut";
+                            else if (title.toLowerCase().includes('watch:')) tagType = "Video";
 
-                        let pubDate = new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                            let cleanDetail = title.replace(/^(Watch|Update|Listen): /i, '');
+                            if(cleanDetail.length > 55) cleanDetail = cleanDetail.substring(0, 52) + '...';
 
-                        return {
-                            group: "K-Pop Alert",
-                            type: tagType,
-                            detail: cleanDetail,
-                            date: pubDate,
-                            link: item.link
-                        };
-                    });
-                    
-                    document.getElementById('feedStatus').innerText = "Live Feed Active";
-                    renderLiveEvents(activeLiveEvents);
-                }
+                            let pubDate = new Date(item.pubDate);
+
+                            allNewsItems.push({
+                                group: data.feed.title || "K-Pop Alert",
+                                type: tagType,
+                                detail: cleanDetail,
+                                pubDate: pubDate,
+                                date: pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                                link: item.link
+                            });
+                        });
+                    }
+                });
+
+                // Sort chronologically (newest first)
+                allNewsItems.sort((a, b) => b.pubDate - a.pubDate);
+                activeLiveEvents = allNewsItems;
+
+                document.getElementById('feedStatus').innerText = "Live Multi-Source Active";
+                renderLiveEvents(activeLiveEvents);
+
             } catch (error) {
                 document.getElementById('feedStatus').innerText = "Feed Offline";
                 document.getElementById('liveEventsContainer').innerHTML = '<div class="text-center py-6 text-gray-400 text-xs">Waiting for connection to global feed...</div>';
@@ -346,30 +452,24 @@
                 return;
             }
             data.forEach(item => {
-                let logoImg = item.logo || "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png";
-
                 grid.innerHTML += `
-                    <div class="flip-card" onclick="toggleCardFlip(this)">
-                        <div class="flip-card-inner">
-                            <div class="card-front">
-                                <div class="flex items-center justify-between">
-                                    <div class="w-11 h-11 rounded-xl bg-white/10 p-1 flex items-center justify-center border border-gray-700 shadow-inner overflow-hidden">
-                                        <img src="${logoImg}" alt="${item.name} logo" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HYBE_Logo.svg/512px-HYBE_Logo.svg.png'">
-                                    </div>
-                                    <span class="inline-block text-[9px] font-bold bg-[#0b0f19] border border-[#374151] text-purple-300 px-2 py-0.5 rounded uppercase">${item.group}</span>
-                                </div>
-                                <div><h3 class="text-sm font-bold text-white mb-1 leading-snug">${item.name}</h3>
-                                </div>
-                                <p class="text-[10px] text-purple-300 text-right font-medium">Tap to view portfolio &rarr;</p>
+                    <div class="card-container">
+                        <div class="flip-card" onclick="toggleFlip(this)">
+                          <div class="card-face card-front">
+                            <div class="brand-header">
+                              <img class="company-logo" src="${item.logo}" alt="${item.name} Logo" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80'">
+                              <div>
+                                <h2 class="company-title">${item.name}</h2>
+                                <span class="tag-badge">${item.group}</span>
+                              </div>
                             </div>
-                            <div class="card-back flex flex-col justify-between">
-                                <div class="flex items-center justify-between">
-                                    <h4 class="text-xs font-bold text-pink-300 uppercase tracking-wide">${item.name}</h4>
-                                    <span class="w-6 h-6 rounded-lg bg-pink-900/50 border border-pink-500/40 flex items-center justify-center text-[10px] text-pink-200">★</span>
-                                </div>
-                                <p class="text-[11px] text-gray-200 leading-snug overflow-y-auto max-h-[95px] pr-1">${item.desc}</p>
-                                <p class="text-[9px] text-purple-300 text-right italic">Tap again to flip back</p>
-                            </div>
+                            <p class="action-hint">Tap to view description →</p>
+                          </div>
+
+                          <div class="card-face card-back">
+                            <h3 class="back-heading">Company Profile</h3>
+                            <p class="description-text">${item.desc}</p>
+                          </div>
                         </div>
                     </div>`;
             });
@@ -380,26 +480,26 @@
             const container = document.getElementById('liveEventsContainer');
             container.innerHTML = "";
             if(data.length === 0) {
-                container.innerHTML = '<div class="text-center py-6 text-gray-400 text-xs">No active events match your search query.</div>';
+                container.innerHTML = '<div class="text-center py-6 text-gray-400 text-xs">No active updates or events match your search.</div>';
                 return;
             }
             data.forEach(ev => {
                 container.innerHTML += `
-                    <a href="${ev.link}" target="_blank" rel="noopener noreferrer" class="block bg-[#1f2937] border-l-4 border-pink-500 p-3 rounded-r-lg flex justify-between items-center shadow-sm hover:bg-[#374151] transition-all cursor-pointer">
-                        <div class="max-w-[70%]">
-                            <h4 class="text-xs font-bold text-white">${ev.group}</h4>
-                            <p class="text-[11px] text-purple-300 mt-0.5 leading-snug">${ev.detail}</p>
+                    <a href="${ev.link}" target="_blank" rel="noopener noreferrer" style="background: #1f2937; border-left: 4px solid #f472b6; padding: 10px; border-radius: 0 8px 8px 0; display: flex; justify-content: space-between; align-items: center; text-decoration: none;">
+                        <div>
+                            <h4 style="font-size: 13px; font-weight: 700; color: white;">${ev.group}</h4>
+                            <p style="font-size: 11px; color: #a855f7; margin-top: 2px;">${ev.detail}</p>
                         </div>
-                        <div class="text-right flex flex-col items-end">
-                            <span class="bg-pink-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">${ev.type}</span>
-                            <p class="text-[10px] text-gray-400 mt-1">${ev.date}</p>
+                        <div style="text-align: right;">
+                            <span style="background: #db2777; color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: bold;">${ev.type}</span>
+                            <p style="font-size: 10px; color: #9ca3af; margin-top: 3px;">${ev.date}</p>
                         </div>
                     </a>`;
             });
         }
 
-        function toggleCardFlip(cardElement) {
-            cardElement.classList.toggle('flipped');
+        function toggleFlip(cardElement) {
+            cardElement.classList.toggle('is-flipped');
         }
 
         function filterRegistryData() {
@@ -407,19 +507,20 @@
             renderRegistryDatabase(kpopRegistry.filter(a => a.name.toLowerCase().includes(query)));
         }
 
+        // Live search filter for upcoming events and multi-source news
         function filterLiveEvents() {
             const query = document.getElementById('eventSearchBar').value.toLowerCase();
-            renderLiveEvents(activeLiveEvents.filter(e => e.detail.toLowerCase().includes(query) || e.type.toLowerCase().includes(query)));
+            const filtered = activeLiveEvents.filter(e => 
+                e.detail.toLowerCase().includes(query) || 
+                e.type.toLowerCase().includes(query) || 
+                e.group.toLowerCase().includes(query)
+            );
+            renderLiveEvents(filtered);
         }
 
         function filterCategory(cat, element) {
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-purple-600', 'text-white');
-                btn.classList.add('bg-[#1f2937]', 'text-gray-300');
-            });
-            element.classList.remove('bg-[#1f2937]', 'text-gray-300');
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active', 'bg-purple-600', 'text-white'));
             element.classList.add('active', 'bg-purple-600', 'text-white');
-            
             renderRegistryDatabase(cat === 'All' ? kpopRegistry : kpopRegistry.filter(a => a.group === cat));
             document.getElementById('searchBar').value = "";
         }
@@ -470,3 +571,4 @@
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
+                            
